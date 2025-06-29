@@ -149,7 +149,7 @@ body {
 }
 
 /* Movies Page Styling */
-#movies-container {
+.movies-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
@@ -290,7 +290,7 @@ body {
   }
 
   /* Movies responsive */
-  #movies-container {
+  .movies-container {
     grid-template-columns: 1fr;
     gap: 15px;
     padding: 15px;
@@ -338,7 +338,7 @@ body {
   }
 
   /* Movies tablet responsive */
-  #movies-container {
+  .movies-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
   }
@@ -354,7 +354,7 @@ body {
   }
 
   /* Movies desktop responsive */
-  #movies-container {
+  .movies-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
