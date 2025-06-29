@@ -63,7 +63,8 @@ body {
   width: 120px;
   height: 120px;
   margin-bottom: 20px;
-  filter: grayscale(100%);
+  filter: brightness(0) saturate(100%) invert(22%) sepia(12%) saturate(317%)
+    hue-rotate(169deg) brightness(95%) contrast(87%);
   transition: transform 0.3s ease;
 }
 
@@ -96,21 +97,29 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
+  background-color: #333;
+  color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.feature-card:hover {
+  background-color: #555;
 }
 
 .feature-card img {
   width: 100px;
   height: 100px;
   margin-bottom: 12px;
+  filter: brightness(0) saturate(100%) invert(100%);
 }
 
 .feature-card h3 {
   margin: 12px 0 10px 0;
   font-size: 1.2em;
+  color: #fff;
 }
 
 .feature-card p {
@@ -118,6 +127,7 @@ body {
   font-size: 1em;
   text-align: center;
   line-height: 1.5;
+  color: #fff;
 }
 
 /* Responsive Design */
