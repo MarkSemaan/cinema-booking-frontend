@@ -50,7 +50,6 @@ body {
 }
 
 .hero {
-  background-image: url("../images/hero-bg.jpg");
   background-size: cover;
   background-position: center;
   height: 500px;
@@ -58,6 +57,18 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.hero img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  filter: grayscale(100%);
+  transition: transform 0.3s ease;
+}
+
+.hero img:hover {
+  transform: scale(1.05);
 }
 .hero .btn {
   background-color: #333;
@@ -141,6 +152,12 @@ body {
     padding: 20px;
   }
 
+  .hero img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+
   .hero h2 {
     font-size: 1.8em;
     margin-bottom: 10px;
@@ -181,6 +198,12 @@ body {
 
   .hero {
     height: 400px;
+  }
+
+  .hero img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 18px;
   }
 
   .features-grid {
