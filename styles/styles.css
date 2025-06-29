@@ -111,6 +111,7 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Layout */
   .header-layout {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
@@ -168,6 +169,7 @@ body {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  /* Layout */
   .header-layout {
     padding: 15px 20px;
   }
