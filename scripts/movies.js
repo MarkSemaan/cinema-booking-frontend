@@ -83,20 +83,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to fetch showtimes for a movie
   function fetchShowtimes(movie) {
-    axios
-      .get(
+    // Fetch both showtimes and auditoriums
+    Promise.all([
+      axios.get(
         `http://localhost/cinema-booking-backend/api/showtimes.php?action=by_movie&movie_id=${movie.id}`
-      )
-      .then((response) => {
-        const showtimes = response.data.showtimes;
+      ),
+      axios.get(
+        `http://localhost/cinema-booking-backend/api/auditorium.php?action=list`
+      ),
+    ])
+      .then(([showtimesResponse, auditoriumsResponse]) => {
+        const showtimes = showtimesResponse.data.showtimes;
+        const auditoriums = auditoriumsResponse.data.auditoriums;
+
         if (showtimes && showtimes.length > 0) {
-          showShowtimesModal(movie, showtimes);
+          // Map auditorium names to showtimes
+          const showtimesWithAuditoriumNames = showtimes.map((showtime) => {
+            const auditorium = auditoriums.find(
+              (aud) => aud.id == showtime.auditorium_id
+            );
+            return {
+              ...showtime,
+              auditorium_name: auditorium
+                ? auditorium.name
+                : `Auditorium ${showtime.auditorium_id}`,
+            };
+          });
+
+          showShowtimesModal(movie, showtimesWithAuditoriumNames);
         } else {
           alert("No showtimes available for this movie.");
         }
       })
       .catch((error) => {
-        console.error("Error fetching showtimes:", error);
+        console.error("Error fetching showtimes or auditoriums:", error);
         alert("Failed to load showtimes. Please try again.");
       });
   }
@@ -125,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   <span class="showtime-time">${formatShowtime(
                     showtime.showtime
                   )}</span>
-                  <span class="showtime-auditorium">Auditorium ${
-                    showtime.auditorium_id
+                  <span class="showtime-auditorium">${
+                    showtime.auditorium_name
                   }</span>
                 </div>
                 <button class="select-showtime-btn">Select</button>
