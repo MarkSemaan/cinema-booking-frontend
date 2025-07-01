@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load movies for showtime form
   loadMovies();
-
+  loadAuditoriums();
   // Movie form submission
   document
     .getElementById("add-movie-form")
@@ -146,5 +146,41 @@ function loadMovies() {
     })
     .catch((error) => {
       console.log("Error loading movies:", error);
+    });
+}
+
+function loadAuditoriums() {
+  axios
+    .get(
+      "http://localhost/cinema-booking-backend/api/auditorium.php?action=list"
+    )
+    .then((response) => {
+      const auditoriumSelect = document.getElementById("auditorium_id");
+      const currentValue = auditoriumSelect.value; // Store current selection
+
+      // Clear existing options except the first one
+      auditoriumSelect.innerHTML =
+        '<option value="">Select an auditorium</option>';
+
+      if (
+        response.data &&
+        response.data.auditoriums &&
+        response.data.auditoriums.length > 0
+      ) {
+        response.data.auditoriums.forEach((auditorium) => {
+          const option = document.createElement("option");
+          option.value = auditorium.id;
+          option.textContent = auditorium.name;
+          auditoriumSelect.appendChild(option);
+        });
+
+        // Restore previous selection if it still exists
+        if (currentValue) {
+          auditoriumSelect.value = currentValue;
+        }
+      }
+    })
+    .catch((error) => {
+      console.log("Error loading auditoriums:", error);
     });
 }
