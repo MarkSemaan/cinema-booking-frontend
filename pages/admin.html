@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vex Cinema - About</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+  </head>
+  <body>
+    <header class="header-layout">
+      <div class="header-left">
+        <img
+          src="../assets/layout/Cinema_Logo.svg"
+          alt="Vex Cinemas Logo"
+          class="header-logo"
+        />
+        <h1>Vex Cinemas</h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="movies.html">Movies</a></li>
+          <li><a href="bookings.html">Bookings</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav class="account-nav">
+        <ul>
+          <li><a href="#">Admin Dashboard</a></li>
+          <li><a href="#">Login/Register</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="admin-dashboard">
+        <form method="POST" id="add-movie-form">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" />
+          <label for="director">Director</label>
+          <input type="text" id="director" name="director" />
+          <label for="release_year">Release Year</label>
+          <input type="number" id="release_year" name="release_year" />
+          <label for="genre">Genre</label>
+          <input type="text" id="genre" name="genre" />
+          <label for="synopsis">Synopsis</label>
+          <textarea id="synopsis" name="synopsis"></textarea>
+          <label for="poster_url">Poster URL</label>
+          <input type="text" id="poster_url" name="poster_url" />
+          <button id="add-movie" type="submit">Add Movie</button>
+        </form>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="../scripts/main.js"></script>
+  <script src="../scripts/admin.js"></script>
+</html>
