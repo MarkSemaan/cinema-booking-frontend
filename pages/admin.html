@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vex Cinema - Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+  </head>
+  <body>
+    <header class="header-layout">
+      <div class="header-left">
+        <img
+          src="../assets/layout/Cinema_Logo.svg"
+          alt="Vex Cinemas Logo"
+          class="header-logo"
+        />
+        <h1>Vex Cinemas</h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="movies.html">Movies</a></li>
+          <li><a href="bookings.html">Bookings</a></li>
+        </ul>
+      </nav>
+      <nav class="account-nav">
+        <ul>
+          <li><a href="admin.html">Admin Dashboard</a></li>
+          <li><a href="auth.html">Login/Register</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="admin-dashboard">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-container">
+          <button class="tab-button active" data-tab="create-movie">
+            Create Movie
+          </button>
+          <button class="tab-button" data-tab="create-showtime">
+            Create Showtime
+          </button>
+          <button class="tab-button" data-tab="create-auditorium">
+            Create Auditorium
+          </button>
+        </div>
+
+        <!-- Create Movie Tab -->
+        <div class="tab-content active" id="create-movie">
+          <div class="admin-dashboard-form">
+            <form method="POST" id="add-movie-form">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" />
+              <label for="director">Director</label>
+              <input type="text" id="director" name="director" />
+              <label for="release_year">Release Year</label>
+              <input type="number" id="release_year" name="release_year" />
+              <label for="genre">Genre</label>
+              <input type="text" id="genre" name="genre" />
+              <label for="synopsis">Synopsis</label>
+              <textarea id="synopsis" name="synopsis"></textarea>
+              <label for="poster">Poster</label>
+              <input type="file" id="poster" name="poster" />
+              <button id="add-movie" type="submit">Add Movie</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Create Showtime Tab -->
+        <div class="tab-content" id="create-showtime">
+          <div class="admin-dashboard-form">
+            <form method="POST" id="add-showtime-form">
+              <label for="movie_id">Movie</label>
+              <select id="movie_id" name="movie_id" required>
+                <option value="">Select a movie</option>
+              </select>
+              <label for="auditorium_id">Auditorium</label>
+              <select id="auditorium_id" name="auditorium_id" required>
+                <option value="">Select an auditorium</option>
+              </select>
+              <label for="show_date">Show Date</label>
+              <input type="date" id="show_date" name="show_date" required />
+              <label for="show_time">Show Time</label>
+              <input type="time" id="show_time" name="show_time" required />
+              <button id="add-showtime" type="submit">Add Showtime</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Create Auditorium Tab -->
+        <div class="tab-content" id="create-auditorium">
+          <div class="admin-dashboard-form">
+            <form method="POST" id="add-auditorium-form">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+              <label for="seats_rows">Seats Rows</label>
+              <input type="number" id="seats_rows" name="seats_rows" required />
+              <label for="seats_per_row">Seats Per Row</label>
+              <input type="number" id="seats_per_row" name="seats_per_row" required />
+              <button id="add-auditorium" type="submit">Add Auditorium</button>
+            </form>
+          </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="../scripts/main.js"></script>
+  <script src="../scripts/tabs.js"></script>
+  <script src="../scripts/admin.js"></script>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vex Cinema - Login/Register</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+  </head>
+  <body>
+    <header class="header-layout">
+      <div class="header-left">
+        <img
+          src="../assets/layout/Cinema_Logo.svg"
+          alt="Vex Cinemas Logo"
+          class="header-logo"
+        />
+        <h1>Vex Cinemas</h1>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="movies.html">Movies</a></li>
+          <li><a href="bookings.html">Bookings</a></li>
+        </ul>
+      </nav>
+      <nav class="account-nav">
+        <ul>
+          <li><a href="auth.html">Login/Register</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="admin-dashboard">
+        <h1>Login or Register</h1>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-container">
+          <button class="tab-button active" data-tab="login">Login</button>
+          <button class="tab-button" data-tab="register">Register</button>
+        </div>
+
+        <!-- Login Tab -->
+        <div class="tab-content active" id="login">
+          <div class="admin-dashboard-form" id="login-form">
+            <form method="POST" id="login-form">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" name="email" required />
+              <label for="login-password">Password</label>
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                required
+              />
+              <button id="login-btn" type="submit">Login</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Register Tab -->
+        <div class="tab-content" id="register">
+          <div class="admin-dashboard-form" id="register-form">
+            <form method="POST" id="register-form">
+              <label for="register-name">Name</label>
+              <input type="text" id="register-name" name="name" required />
+              <label for="register-email">Email</label>
+              <input type="email" id="register-email" name="email" required />
+              <label for="register-password">Password</label>
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                required
+              />
+              <button id="register-btn" type="submit">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="../scripts/tabs.js"></script>
+  <script src="../scripts/auth.js"></script>
+  <script src="../scripts/admin.js"></script>
+</html>
