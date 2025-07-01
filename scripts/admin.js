@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       const formdata = new FormData(event.target);
       const data = Object.fromEntries(formdata);
-
       axios
         .post(
           "http://localhost/cinema-booking-backend/api/movies.php?action=create",
@@ -18,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         )
         .then((response) => {
           console.log(response);
-          alert("Movie added successfully");
+          alert(`Movie, ${data.title} added successfully`);
           event.target.reset();
         })
         .catch((error) => {
