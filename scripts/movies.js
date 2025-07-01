@@ -186,7 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", (e) => {
         const showtimeItem = e.target.closest(".showtime-item");
         const showtimeId = showtimeItem.dataset.showtimeId;
-        const selectedShowtime = showtimes.find((s) => s.id === showtimeId);
+        const selectedShowtime = showtimes.find(
+          (s) => String(s.id) === showtimeId
+        );
         handleShowtimeSelection(movie, selectedShowtime);
       });
     });
@@ -219,9 +221,246 @@ document.addEventListener("DOMContentLoaded", () => {
   function handleShowtimeSelection(movie, showtime) {
     console.log("Selected showtime:", showtime);
     console.log("For movie:", movie.title);
-    // TODO: Proceed to seat selection
-    alert(`Selected: ${movie.title} at ${formatShowtime(showtime.showtime)}`);
+    // Proceed to seat selection
+    fetchAvailableSeats(movie, showtime);
+  }
+
+  // Function to fetch available seats for a showtime
+  function fetchAvailableSeats(movie, showtime) {
+    axios
+      .get(
+        `http://localhost/cinema-booking-backend/api/bookings.php?action=available_seats&showtime_id=${showtime.id}`
+      )
+      .then((response) => {
+        const seatData = response.data;
+        showSeatSelectionModal(movie, showtime, seatData);
+      })
+      .catch((error) => {
+        console.error("Error fetching available seats:", error);
+        alert("Failed to load seat information. Please try again.");
+      });
+  }
+
+  // Function to show seat selection modal
+  function showSeatSelectionModal(movie, showtime, seatData) {
+    // Close the showtimes modal first
     closeShowtimesModal();
+
+    // Create seat selection modal
+    const seatModal = document.createElement("div");
+    seatModal.className = "modal seat-selection-modal";
+    seatModal.id = "seatSelectionModal";
+
+    const { auditorium, booked_seats } = seatData;
+    const selectedSeats = [];
+
+    seatModal.innerHTML = `
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+          <h2>Select Seats for ${movie.title}</h2>
+          <div class="showtime-info-summary">
+            <p><strong>Showtime:</strong> ${formatShowtime(
+              showtime.showtime
+            )}</p>
+            <p><strong>Auditorium:</strong> ${showtime.auditorium_name}</p>
+          </div>
+          
+          <div class="seat-selection-container">
+            <div class="screen-indicator">SCREEN</div>
+            <div class="seats-grid" style="grid-template-columns: repeat(${
+              auditorium.seats_per_row
+            }, 1fr);">
+              ${generateSeatsGrid(
+                auditorium.rows,
+                auditorium.seats_per_row,
+                booked_seats
+              )}
+            </div>
+            <div class="seat-legend">
+              <div class="legend-item">
+                <div class="seat available"></div>
+                <span>Available</span>
+              </div>
+              <div class="legend-item">
+                <div class="seat selected"></div>
+                <span>Selected</span>
+              </div>
+              <div class="legend-item">
+                <div class="seat booked"></div>
+                <span>Booked</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="booking-summary">
+            <p><strong>Selected Seats:</strong> <span id="selectedSeatsDisplay">None</span></p>
+            <p><strong>Total Price:</strong> $<span id="totalPrice">0</span></p>
+          </div>
+          
+          <div class="booking-actions">
+            <button id="confirmBookingBtn" class="confirm-booking-btn" disabled>Confirm Booking</button>
+            <button class="cancel-booking-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(seatModal);
+
+    // Show the modal
+    seatModal.style.display = "block";
+    setTimeout(() => {
+      seatModal.classList.add("show");
+    }, 10);
+
+    // Add event listeners
+    const closeBtn = seatModal.querySelector(".close");
+    closeBtn.onclick = () => closeSeatSelectionModal();
+
+    // Close modal when clicking outside
+    seatModal.onclick = (event) => {
+      if (event.target === seatModal) {
+        closeSeatSelectionModal();
+      }
+    };
+
+    // Add seat click handlers
+    const seatElements = seatModal.querySelectorAll(".seat.available");
+    seatElements.forEach((seat) => {
+      seat.addEventListener("click", () => {
+        const row = seat.dataset.row;
+        const number = seat.dataset.number;
+        const seatKey = `${row}-${number}`;
+
+        if (selectedSeats.find((s) => s.row === row && s.number === number)) {
+          // Deselect seat
+          selectedSeats.splice(
+            selectedSeats.findIndex(
+              (s) => s.row === row && s.number === number
+            ),
+            1
+          );
+          seat.classList.remove("selected");
+        } else {
+          // Select seat
+          selectedSeats.push({ row, number });
+          seat.classList.add("selected");
+        }
+
+        updateBookingSummary(selectedSeats);
+      });
+    });
+
+    // Add booking confirmation handler
+    const confirmBtn = seatModal.querySelector("#confirmBookingBtn");
+    confirmBtn.addEventListener("click", () => {
+      if (selectedSeats.length > 0) {
+        createBooking(movie, showtime, selectedSeats);
+      }
+    });
+
+    // Add cancel handler
+    const cancelBtn = seatModal.querySelector(".cancel-booking-btn");
+    cancelBtn.addEventListener("click", () => {
+      closeSeatSelectionModal();
+    });
+  }
+
+  // Function to generate seats grid HTML
+  function generateSeatsGrid(rows, seatsPerRow, bookedSeats) {
+    let html = "";
+    const bookedSeatsSet = new Set(
+      bookedSeats.map((seat) => `${seat.seat_row}-${seat.seat_number}`)
+    );
+
+    for (let row = 1; row <= rows; row++) {
+      for (let seat = 1; seat <= seatsPerRow; seat++) {
+        const seatKey = `${row}-${seat}`;
+        const isBooked = bookedSeatsSet.has(seatKey);
+        const seatClass = isBooked ? "seat booked" : "seat available";
+
+        html += `
+          <div class="${seatClass}" data-row="${row}" data-number="${seat}">
+            ${seat}
+          </div>
+        `;
+      }
+    }
+
+    return html;
+  }
+
+  // Function to update booking summary
+  function updateBookingSummary(selectedSeats) {
+    const selectedSeatsDisplay = document.getElementById(
+      "selectedSeatsDisplay"
+    );
+    const totalPriceElement = document.getElementById("totalPrice");
+    const confirmBtn = document.getElementById("confirmBookingBtn");
+
+    if (selectedSeats.length === 0) {
+      selectedSeatsDisplay.textContent = "None";
+      totalPriceElement.textContent = "0";
+      confirmBtn.disabled = true;
+    } else {
+      const seatsText = selectedSeats
+        .map((seat) => `Row ${seat.row}, Seat ${seat.number}`)
+        .join(", ");
+      selectedSeatsDisplay.textContent = seatsText;
+
+      const pricePerSeat = 12; // $12 per seat
+      const totalPrice = selectedSeats.length * pricePerSeat;
+      totalPriceElement.textContent = totalPrice;
+
+      confirmBtn.disabled = false;
+    }
+  }
+
+  // Function to create booking
+  function createBooking(movie, showtime, selectedSeats) {
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+
+    const bookingData = {
+      user_id: userInfo.id,
+      showtime_id: showtime.id,
+      seats: selectedSeats,
+    };
+
+    axios
+      .post(
+        "http://localhost/cinema-booking-backend/api/bookings.php?action=create",
+        bookingData
+      )
+      .then((response) => {
+        alert(`Booking successful! Booking ID: ${response.data.booking_id}`);
+        closeSeatSelectionModal();
+        // Optionally redirect to bookings page
+        // window.location.href = "bookings.html";
+      })
+      .catch((error) => {
+        console.error("Error creating booking:", error);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          alert(`Booking failed: ${error.response.data.error}`);
+        } else {
+          alert("Failed to create booking. Please try again.");
+        }
+      });
+  }
+
+  // Function to close seat selection modal
+  function closeSeatSelectionModal() {
+    const seatModal = document.getElementById("seatSelectionModal");
+    if (seatModal) {
+      seatModal.classList.remove("show");
+      setTimeout(() => {
+        seatModal.remove();
+      }, 300);
+    }
   }
 
   // Fetch and display movies
