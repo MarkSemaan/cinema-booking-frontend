@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("submit", (event) => {
       event.preventDefault();
       const formdata = new FormData(event.target);
-      const data = Object.fromEntries(formdata);
 
       // Get user ID from localStorage for admin authentication
       const userData = JSON.parse(localStorage.getItem("user"));
@@ -16,21 +15,21 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Please log in first");
         return;
       }
-      data.user_id = userData.id;
+      formdata.append("user_id", userData.id);
 
       axios
         .post(
           "http://localhost/cinema-booking-backend/api/movies.php?action=create",
-          JSON.stringify(data),
+          formdata,
           {
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
             },
           }
         )
         .then((response) => {
           console.log(response);
-          alert(`Movie, ${data.title} added successfully`);
+          alert(`Movie added successfully`);
           event.target.reset();
           // Reload movies after adding a new one
           loadMovies();
