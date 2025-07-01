@@ -1256,3 +1256,46 @@ body {
     max-width: 250px;
   }
 }
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 700px;
+  margin: 30px auto;
+  align-items: center;
+}
+
+.booking-card {
+  width: 100%;
+  background: #232323;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  padding: 24px 28px;
+  color: #fff;
+  font-size: 1.05em;
+  border: 1px solid #333;
+}
+
+.booking-movie-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #4da3ff;
+}
+
+@media (max-width: 700px) {
+  .bookings-list {
+    padding: 0 8px;
+  }
+  .booking-card {
+    padding: 16px 8px;
+    font-size: 0.98em;
+  }
+}
+
+main > h2 {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 0;
+}
