@@ -272,9 +272,33 @@ body {
 
 .movie-poster {
   width: 100%;
-  height: 400px;
+  aspect-ratio: 2/3; /* Ensures all posters have the same shape */
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+  min-height: 240px; /* fallback for browsers without aspect-ratio */
+  position: relative;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background-color: #555;
+  display: block;
+  border-radius: 12px;
+}
+
+.movie-poster .no-image {
+  color: #aaa;
+  font-size: 1.1em;
+  text-align: center;
+  width: 100%;
+  padding: 40px 0;
 }
 
 .movie-info {
@@ -384,18 +408,46 @@ body {
 .modal-body {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+@media (min-width: 700px) {
+  .modal-body {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .modal-poster {
+    margin: 0;
+  }
+  .modal-info {
+    padding-top: 32px;
+    padding-left: 0;
+  }
 }
 
 .modal-poster {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
+  margin: 0 auto 24px auto;
+}
+@media (min-width: 700px) {
+  .modal-poster {
+    margin: 0;
+  }
 }
 
 .modal-poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s;
+}
+
+.modal-poster img:hover {
+  transform: scale(1.03);
 }
 
 .modal-info {
