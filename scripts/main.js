@@ -11,6 +11,24 @@ function createUserDropdown() {
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const isAdmin = localStorage.getItem("is_admin");
 
+  // Check admin access protection
+  if (window.location.pathname.includes("admin.html")) {
+    if (!userInfo) {
+      alert("You must be logged in to access the Admin Dashboard.");
+      window.location.href = window.location.pathname.includes("pages/")
+        ? "../index.html"
+        : "index.html";
+      return;
+    }
+    if (isAdmin !== "1") {
+      alert("Access denied. You do not have admin privileges.");
+      window.location.href = window.location.pathname.includes("pages/")
+        ? "../index.html"
+        : "index.html";
+      return;
+    }
+  }
+
   // Find existing login/register link or create new structure
   let existingItems = Array.from(accountNav.children);
   let loginRegisterItem = existingItems.find(
@@ -18,6 +36,22 @@ function createUserDropdown() {
       item.querySelector("a") &&
       item.querySelector("a").textContent === "Login/Register"
   );
+
+  // Find and handle admin dashboard link
+  let adminDashboardItem = existingItems.find(
+    (item) =>
+      item.querySelector("a") &&
+      item.querySelector("a").textContent === "Admin Dashboard"
+  );
+
+  // Hide admin dashboard for non-admin users
+  if (adminDashboardItem) {
+    if (isAdmin !== "1") {
+      adminDashboardItem.style.display = "none";
+    } else {
+      adminDashboardItem.style.display = "block";
+    }
+  }
 
   if (userInfo) {
     // User is logged in - show dropdown
