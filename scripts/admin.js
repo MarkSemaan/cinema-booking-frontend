@@ -9,6 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       const formdata = new FormData(event.target);
       const data = Object.fromEntries(formdata);
+
+      // Get user ID from localStorage for admin authentication
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (!userData || !userData.id) {
+        alert("Please log in first");
+        return;
+      }
+      data.user_id = userData.id;
+
       axios
         .post(
           "http://localhost/cinema-booking-backend/api/movies.php?action=create",
@@ -27,8 +36,18 @@ document.addEventListener("DOMContentLoaded", function () {
           loadMovies();
         })
         .catch((error) => {
-          alert("Movie not added");
           console.log(error);
+          if (error.response) {
+            alert(
+              `Movie not added: ${
+                error.response.data.error || error.response.statusText
+              }`
+            );
+          } else if (error.request) {
+            alert("Movie not added: No response from server");
+          } else {
+            alert(`Movie not added: ${error.message}`);
+          }
         });
     });
 
@@ -42,11 +61,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Combine date and time
       const showDateTime = `${data.show_date} ${data.show_time}:00`;
-      data.show_datetime = showDateTime;
+      data.showtime = showDateTime;
 
-      // Remove individual date and time fields
+      // Remove individual date and time fields and price (not in database)
       delete data.show_date;
       delete data.show_time;
+      delete data.price;
+
+      // Get user ID from localStorage for admin authentication
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (!userData || !userData.id) {
+        alert("Please log in first");
+        return;
+      }
+      data.user_id = userData.id;
 
       axios
         .post(
@@ -64,8 +92,22 @@ document.addEventListener("DOMContentLoaded", function () {
           event.target.reset();
         })
         .catch((error) => {
-          alert("Showtime not added");
           console.log(error);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            alert(
+              `Showtime not added: ${
+                error.response.data.error || error.response.statusText
+              }`
+            );
+          } else if (error.request) {
+            // The request was made but no response was received
+            alert("Showtime not added: No response from server");
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            alert(`Showtime not added: ${error.message}`);
+          }
         });
     });
 
@@ -75,6 +117,15 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       const formdata = new FormData(event.target);
       const data = Object.fromEntries(formdata);
+
+      // Get user ID from localStorage for admin authentication
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (!userData || !userData.id) {
+        alert("Please log in first");
+        return;
+      }
+      data.user_id = userData.id;
+
       axios
         .post(
           "http://localhost/cinema-booking-backend/api/auditorium.php?action=create",
@@ -89,10 +140,22 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(response);
           alert(`Auditorium, ${data.name} added successfully`);
           event.target.reset();
+          // Reload auditoriums after adding a new one
+          loadAuditoriums();
         })
         .catch((error) => {
-          alert("Auditorium not added");
           console.log(error);
+          if (error.response) {
+            alert(
+              `Auditorium not added: ${
+                error.response.data.error || error.response.statusText
+              }`
+            );
+          } else if (error.request) {
+            alert("Auditorium not added: No response from server");
+          } else {
+            alert(`Auditorium not added: ${error.message}`);
+          }
         });
     });
 });
@@ -128,6 +191,9 @@ function loadMovies() {
     })
     .catch((error) => {
       console.log("Error loading movies:", error);
+      if (error.response) {
+        console.error("Server error:", error.response.data);
+      }
     });
 }
 
@@ -164,5 +230,8 @@ function loadAuditoriums() {
     })
     .catch((error) => {
       console.log("Error loading auditoriums:", error);
+      if (error.response) {
+        console.error("Server error:", error.response.data);
+      }
     });
 }
