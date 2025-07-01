@@ -36,9 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300); // Wait for animation to complete
   }
 
+  // Function to get image URL
+  function getImageUrl(posterUrl) {
+    if (!posterUrl) return null;
+    const imageUrl = `http://localhost/cinema-booking-backend/api/images.php?path=${encodeURIComponent(
+      posterUrl
+    )}`;
+    console.log("Generated image URL:", imageUrl); // Debug log
+    return imageUrl;
+  }
+
   // Function to open modal with movie data
   function openModal(movie) {
-    modalPoster.src = movie.poster_url;
+    modalPoster.src = getImageUrl(movie.poster_url);
     modalPoster.alt = `${movie.title} poster`;
     modalTitle.textContent = movie.title;
     modalYear.textContent = movie.release_year;
@@ -60,14 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Movies data:", movies); // Debug log
       const container = document.querySelector(".movies-container");
       movies.forEach((movie) => {
-        console.log("Movie genre:", movie.genre); // Debug log for each movie
+        console.log("Movie:", movie.title, "Poster URL:", movie.poster_url); // Debug log for each movie
         const movieCard = document.createElement("div");
         movieCard.className = "movie-card";
         movieCard.style.cursor = "pointer";
 
         movieCard.innerHTML = `
             <img 
-              src="${movie.poster_url}" 
+              src="${getImageUrl(movie.poster_url)}" 
               alt="${movie.title} poster" 
               class="movie-poster"
               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNTU1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2NjYyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='"
