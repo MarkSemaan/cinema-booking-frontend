@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Load movies for showtime form
+  // Load movies and auditoriums for showtime form
   loadMovies();
   loadAuditoriums();
   // Movie form submission
@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+  // Auditorium form submission
   document
     .getElementById("add-auditorium-form")
     .addEventListener("submit", (event) => {
@@ -196,6 +197,7 @@ function loadMovies() {
     });
 }
 
+// Function to load auditoriums dropdown for the showtime form
 function loadAuditoriums() {
   axios
     .get(
