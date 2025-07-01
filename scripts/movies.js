@@ -257,25 +257,30 @@ document.addEventListener("DOMContentLoaded", () => {
     seatModal.innerHTML = `
       <div class="modal-content">
         <span class="close">&times;</span>
-        <div class="modal-body">
-          <h2>Select Seats for ${movie.title}</h2>
-          <div class="showtime-info-summary">
-            <p><strong>Showtime:</strong> ${formatShowtime(
-              showtime.showtime
-            )}</p>
-            <p><strong>Auditorium:</strong> ${showtime.auditorium_name}</p>
+        <div class="modal-body seat-modal-body-flex">
+          <div class="seat-modal-info-col">
+            <h2 class="seat-modal-title">Select Seats<br>for<br>${
+              movie.title
+            }</h2>
+            <div class="showtime-info-summary">
+              <p><strong>Showtime:</strong> ${formatShowtime(
+                showtime.showtime
+              )}</p>
+              <p><strong>Auditorium:</strong> ${showtime.auditorium_name}</p>
+            </div>
           </div>
-          
-          <div class="seat-selection-container">
+          <div class="seat-modal-grid-col">
             <div class="screen-indicator">SCREEN</div>
-            <div class="seats-grid" style="grid-template-columns: repeat(${
-              auditorium.seats_per_row
-            }, 1fr);">
-              ${generateSeatsGrid(
-                auditorium.rows,
-                auditorium.seats_per_row,
-                booked_seats
-              )}
+            <div class="seat-selection-container">
+              <div class="seats-grid" style="grid-template-columns: repeat(${
+                auditorium.seats_per_row
+              }, 1fr);">
+                ${generateSeatsGrid(
+                  auditorium.rows,
+                  auditorium.seats_per_row,
+                  booked_seats
+                )}
+              </div>
             </div>
             <div class="seat-legend">
               <div class="legend-item">
@@ -291,16 +296,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span>Booked</span>
               </div>
             </div>
-          </div>
-          
-          <div class="booking-summary">
-            <p><strong>Selected Seats:</strong> <span id="selectedSeatsDisplay">None</span></p>
-            <p><strong>Total Price:</strong> $<span id="totalPrice">0</span></p>
-          </div>
-          
-          <div class="booking-actions">
-            <button id="confirmBookingBtn" class="confirm-booking-btn" disabled>Confirm Booking</button>
-            <button class="cancel-booking-btn">Cancel</button>
+            <div class="booking-summary">
+              <p><strong>Selected Seats:</strong> <span id="selectedSeatsDisplay">None</span></p>
+              <p><strong>Total Price:</strong> $<span id="totalPrice">0</span></p>
+            </div>
+            <div class="booking-actions">
+              <button id="confirmBookingBtn" class="confirm-booking-btn" disabled>Confirm Booking</button>
+              <button class="cancel-booking-btn">Cancel</button>
+            </div>
           </div>
         </div>
       </div>

@@ -933,12 +933,14 @@ body {
 .screen-indicator {
   background: linear-gradient(45deg, #007bff, #0056b3);
   color: #fff;
-  padding: 10px 30px;
+  padding: 10px 40px;
   border-radius: 20px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 0 auto 18px auto;
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  display: block;
+  max-width: 300px;
 }
 
 .seats-grid {
@@ -996,7 +998,7 @@ body {
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin-top: 15px;
+  margin: 18px 0 0 0;
 }
 
 .legend-item {
@@ -1016,10 +1018,12 @@ body {
 
 .booking-summary {
   background-color: #333;
-  padding: 20px;
+  padding: 18px 24px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin: 18px 0 0 0;
   text-align: center;
+  width: 100%;
+  max-width: 350px;
 }
 
 .booking-summary p {
@@ -1032,6 +1036,7 @@ body {
   display: flex;
   gap: 15px;
   justify-content: center;
+  margin: 18px 0 0 0;
 }
 
 .confirm-booking-btn {
@@ -1341,5 +1346,92 @@ main > h2 {
   .booking-movie-poster {
     width: 80px;
     height: 120px;
+  }
+}
+
+.seat-modal-body-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.seat-modal-info-col {
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 24px;
+  min-width: 180px;
+}
+
+.seat-modal-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  text-align: right;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.seat-modal-grid-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.screen-indicator {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 10px 40px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  display: block;
+  max-width: 300px;
+}
+
+.seat-legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 18px 0 0 0;
+}
+
+.booking-summary {
+  background-color: #333;
+  padding: 18px 24px;
+  border-radius: 8px;
+  margin: 18px 0 0 0;
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 18px 0 0 0;
+}
+
+@media (max-width: 900px) {
+  .seat-modal-body-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .seat-modal-info-col {
+    align-items: center;
+    text-align: center;
+    min-width: 0;
+  }
+  .seat-modal-title {
+    text-align: center;
   }
 }
