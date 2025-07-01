@@ -67,6 +67,103 @@ body {
   justify-self: end;
 }
 
+/* User Dropdown Styles */
+.user-dropdown {
+  position: relative;
+}
+
+.user-button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.user-button:hover {
+  background-color: #555;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.user-dropdown.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #333;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #fff;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #555;
+}
+
+.dropdown-menu li:first-child a,
+.dropdown-menu li:first-child button {
+  border-radius: 4px 4px 0 0;
+}
+
+.dropdown-menu li:last-child a,
+.dropdown-menu li:last-child button {
+  border-radius: 0 0 4px 4px;
+}
+
+.dropdown-menu li:only-child a,
+.dropdown-menu li:only-child button {
+  border-radius: 4px;
+}
+
 .hero {
   background-size: cover;
   background-position: center;
@@ -365,8 +462,8 @@ body {
   padding: 20px;
 }
 
-/* Admin Tabs */
-.admin-tabs {
+/* Universal Tabs */
+.tabs-container {
   display: flex;
   gap: 10px;
   margin-bottom: 30px;
@@ -495,6 +592,23 @@ body {
     gap: 10px;
   }
 
+  .user-dropdown {
+    position: static;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    right: auto;
+    min-width: 200px;
+  }
+
+  .dropdown-menu.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
   .hero {
     height: 350px;
     padding: 20px;
@@ -552,7 +666,7 @@ body {
     padding: 15px;
   }
 
-  .admin-tabs {
+  .tabs-container {
     flex-direction: column;
     gap: 5px;
   }
