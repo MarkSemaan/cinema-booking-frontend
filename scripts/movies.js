@@ -60,6 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       modal.classList.add("show");
     }, 10);
+
+    // Add event listener to Book Now button
+    const bookNowBtn = modal.querySelector(".book-now-btn");
+    bookNowBtn.onclick = () => handleBookNow(movie);
+  }
+
+  // Function to handle Book Now button click
+  function handleBookNow(movie) {
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+
+    if (!userInfo) {
+      // User is not logged in, redirect to auth page
+      alert("Please log in to book tickets.");
+      window.location.href = "auth.html";
+      return;
+    }
+
+    // User is logged in, proceed with booking
+    console.log("Proceeding with booking for movie:", movie.title);
+    // TODO: Implement booking flow
+    alert("Booking feature coming soon!");
   }
 
   // Fetch and display movies
