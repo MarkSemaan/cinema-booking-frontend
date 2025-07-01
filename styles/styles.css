@@ -817,6 +817,81 @@ body {
   }
 }
 
+/* Showtimes Modal Styles */
+.showtimes-modal .modal-content {
+  max-width: 600px;
+  width: 90%;
+}
+
+.showtimes-modal .modal-body {
+  padding: 20px;
+}
+
+.showtimes-modal h2 {
+  margin: 0 0 20px 0;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+}
+
+.showtimes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.showtime-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #333;
+  border-radius: 8px;
+  border: 1px solid #555;
+  transition: all 0.3s ease;
+}
+
+.showtime-item:hover {
+  background-color: #444;
+  border-color: #777;
+  transform: translateY(-2px);
+}
+
+.showtime-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.showtime-time {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.showtime-auditorium {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.select-showtime-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.select-showtime-btn:hover {
+  background-color: #0056b3;
+}
+
 @media (min-width: 1025px) {
   .features-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -825,5 +900,142 @@ body {
   /* Movies desktop responsive */
   .movies-container {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Layout */
+  .header-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .header-left {
+    justify-self: center;
+  }
+
+  .main-nav,
+  .account-nav {
+    justify-self: center;
+  }
+
+  .main-nav ul,
+  .account-nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .user-dropdown {
+    position: static;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    right: auto;
+    min-width: 200px;
+  }
+
+  .dropdown-menu.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .hero {
+    height: 350px;
+    padding: 20px;
+  }
+
+  .hero img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+
+  .hero h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .feature-card {
+    padding: 20px 15px;
+  }
+
+  .feature-card img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Movies responsive */
+  .movies-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .movie-poster {
+    height: 300px;
+  }
+
+  .movie-info {
+    padding: 15px;
+  }
+
+  /* Admin dashboard responsive */
+  .admin-dashboard {
+    padding: 15px;
+  }
+
+  .tabs-container {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tab-button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+
+  .admin-dashboard-form {
+    padding: 20px;
+  }
+
+  /* Responsive styles for showtimes modal */
+  .showtimes-modal .modal-content {
+    width: 95%;
+    margin: 20px auto;
+  }
+
+  .showtime-item {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .showtime-info {
+    align-items: center;
+  }
+
+  .select-showtime-btn {
+    width: 100%;
+    max-width: 200px;
   }
 }
