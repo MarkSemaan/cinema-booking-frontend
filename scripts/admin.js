@@ -86,6 +86,33 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(error);
         });
     });
+
+  document
+    .getElementById("add-auditorium-form")
+    .addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formdata = new FormData(event.target);
+      const data = Object.fromEntries(formdata);
+      axios
+        .post(
+          "http://localhost/cinema-booking-backend/api/auditorium.php?action=create",
+          JSON.stringify(data),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          alert(`Auditorium, ${data.name} added successfully`);
+          event.target.reset();
+        })
+        .catch((error) => {
+          alert("Auditorium not added");
+          console.log(error);
+        });
+    });
 });
 
 // Function to load movies for the showtime form

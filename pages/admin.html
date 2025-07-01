@@ -44,6 +44,9 @@
           <button class="tab-button" data-tab="create-showtime">
             Create Showtime
           </button>
+          <button class="tab-button" data-tab="create-auditorium">
+            Create Auditorium
+          </button>
         </div>
 
         <!-- Create Movie Tab -->
@@ -99,6 +102,20 @@
             </form>
           </div>
         </div>
+
+        <!-- Create Auditorium Tab -->
+        <div class="tab-content" id="create-auditorium">
+          <div class="admin-dashboard-form">
+            <form method="POST" id="add-auditorium-form">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+              <label for="seats_rows">Seats Rows</label>
+              <input type="number" id="seats_rows" name="seats_rows" required />
+              <label for="seats_per_row">Seats Per Row</label>
+              <input type="number" id="seats_per_row" name="seats_per_row" required />
+              <button id="add-auditorium" type="submit">Add Auditorium</button>
+            </form>
+          </div>
       </div>
     </main>
     <footer></footer>
