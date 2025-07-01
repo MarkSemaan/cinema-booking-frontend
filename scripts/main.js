@@ -73,18 +73,6 @@ function createUserDropdown() {
     const dropdownMenu = document.createElement("ul");
     dropdownMenu.className = "dropdown-menu";
 
-    // Add admin dashboard link if user is admin
-    if (isAdmin === "1") {
-      const adminLink = document.createElement("li");
-      const adminAnchor = document.createElement("a");
-      adminAnchor.href = window.location.pathname.includes("pages/")
-        ? "admin.html"
-        : "pages/admin.html";
-      adminAnchor.textContent = "Admin Dashboard";
-      adminLink.appendChild(adminAnchor);
-      dropdownMenu.appendChild(adminLink);
-    }
-
     const logoutItem = document.createElement("li");
     const logoutButton = document.createElement("button");
     logoutButton.className = "logout-button";
