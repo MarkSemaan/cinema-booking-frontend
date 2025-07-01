@@ -1,5 +1,8 @@
+// Movies page functionality
+// This is where all the 'movie' magic happens
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Modal elements
+  // Grab all the modal elements we need
   const modal = document.getElementById("movieModal");
   const closeBtn = document.querySelector(".close");
   const modalPoster = document.getElementById("modalPoster");
@@ -9,44 +12,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDirector = document.getElementById("modalDirector");
   const modalSynopsis = document.getElementById("modalSynopsis");
 
-  // Close modal when clicking the X button
+  // Close modal when X is clicked
   closeBtn.onclick = function () {
     closeModal();
   };
 
-  // Close modal when clicking outside of it
+  // Close when clicking outside the modal
   window.onclick = function (event) {
     if (event.target == modal) {
       closeModal();
     }
   };
 
-  // Close modal with Escape key
+  // Escape key closes modal too
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && modal.classList.contains("show")) {
       closeModal();
     }
   });
 
-  // Function to close modal with animation
+  // Close modal with a nice fade out
   function closeModal() {
     modal.classList.remove("show");
     setTimeout(() => {
       modal.style.display = "none";
-    }, 300); // Wait for animation to complete
+    }, 300); // Wait for the animation
   }
 
-  // Function to get image URL
+  // Build the image URL from the backend
   function getImageUrl(posterUrl) {
     if (!posterUrl) return null;
     const imageUrl = `http://localhost/cinema-booking-backend/api/images.php?path=${encodeURIComponent(
       posterUrl
     )}`;
-    console.log("Generated image URL:", imageUrl); // Debug log
+    console.log("Image URL:", imageUrl); // Debug
     return imageUrl;
   }
 
-  // Function to open modal with movie data
+  // Open the modal and fill it with movie data
   function openModal(movie) {
     modalPoster.src = getImageUrl(movie.poster_url);
     modalPoster.alt = `${movie.title} poster`;
@@ -56,34 +59,34 @@ document.addEventListener("DOMContentLoaded", () => {
     modalDirector.textContent = `Dir: ${movie.director}`;
     modalSynopsis.textContent = movie.synopsis || "No synopsis available";
     modal.style.display = "block";
-    // Trigger animation by adding show class
+    // Add a tiny delay for the animation
     setTimeout(() => {
       modal.classList.add("show");
     }, 10);
 
-    // Add event listener to Book Now button
+    // Hook up the Book Now button
     const bookNowBtn = modal.querySelector(".book-now-btn");
     bookNowBtn.onclick = () => handleBookNow(movie);
   }
 
-  // Function to handle Book Now button click
+  // Handle the Book Now button click
   function handleBookNow(movie) {
     const userInfo = JSON.parse(localStorage.getItem("user"));
 
     if (!userInfo) {
-      // User is not logged in, redirect to auth page
+      // User needs to log in first
       alert("Please log in to book tickets.");
       window.location.href = "auth.html";
       return;
     }
 
-    // User is logged in, fetch and show available showtimes
+    // User is logged in, get the showtimes
     fetchShowtimes(movie);
   }
 
-  // Function to fetch showtimes for a movie
+  // Get showtimes for a specific movie
   function fetchShowtimes(movie) {
-    // Fetch both showtimes and auditoriums
+    // Need both showtimes and auditorium info
     Promise.all([
       axios.get(
         `http://localhost/cinema-booking-backend/api/showtimes.php?action=by_movie&movie_id=${movie.id}`
@@ -97,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const auditoriums = auditoriumsResponse.data.auditoriums;
 
         if (showtimes && showtimes.length > 0) {
-          // Map auditorium names to showtimes
+          // Match up auditorium names with showtimes
           const showtimesWithAuditoriumNames = showtimes.map((showtime) => {
             const auditorium = auditoriums.find(
               (aud) => aud.id == showtime.auditorium_id
@@ -116,17 +119,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching showtimes or auditoriums:", error);
+        console.error("Error getting showtimes:", error);
         alert("Failed to load showtimes. Please try again.");
       });
   }
 
-  // Function to show showtimes modal
+  // Show the showtimes selection modal
   function showShowtimesModal(movie, showtimes) {
     // Close the movie modal first
     closeModal();
 
-    // Create showtimes modal
+    // Create the showtimes modal
     const showtimesModal = document.createElement("div");
     showtimesModal.className = "modal showtimes-modal";
     showtimesModal.id = "showtimesModal";
@@ -171,14 +174,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = showtimesModal.querySelector(".close");
     closeBtn.onclick = () => closeShowtimesModal();
 
-    // Close modal when clicking outside
+    // Close when clicking outside
     showtimesModal.onclick = (event) => {
       if (event.target === showtimesModal) {
         closeShowtimesModal();
       }
     };
 
-    // Add event listeners to select buttons
+    // Hook up the select buttons
     const selectButtons = showtimesModal.querySelectorAll(
       ".select-showtime-btn"
     );
@@ -194,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to close showtimes modal
+  // Close the showtimes modal
   function closeShowtimesModal() {
     const showtimesModal = document.getElementById("showtimesModal");
     if (showtimesModal) {
@@ -205,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to format showtime
+  // Format the showtime to look nice
   function formatShowtime(showtimeString) {
     const date = new Date(showtimeString);
     return date.toLocaleString("en-US", {
@@ -217,15 +220,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to handle showtime selection
+  // Handle when user picks a showtime
   function handleShowtimeSelection(movie, showtime) {
     console.log("Selected showtime:", showtime);
     console.log("For movie:", movie.title);
-    // Proceed to seat selection
+    // Now get the available seats
     fetchAvailableSeats(movie, showtime);
   }
 
-  // Function to fetch available seats for a showtime
+  // Get which seats are available for this showtime
   function fetchAvailableSeats(movie, showtime) {
     axios
       .get(
@@ -236,23 +239,23 @@ document.addEventListener("DOMContentLoaded", () => {
         showSeatSelectionModal(movie, showtime, seatData);
       })
       .catch((error) => {
-        console.error("Error fetching available seats:", error);
+        console.error("Error getting seats:", error);
         alert("Failed to load seat information. Please try again.");
       });
   }
 
-  // Function to show seat selection modal
+  // Show the seat selection modal
   function showSeatSelectionModal(movie, showtime, seatData) {
     // Close the showtimes modal first
     closeShowtimesModal();
 
-    // Create seat selection modal
+    // Create the seat selection modal
     const seatModal = document.createElement("div");
     seatModal.className = "modal seat-selection-modal";
     seatModal.id = "seatSelectionModal";
 
     const { auditorium, booked_seats } = seatData;
-    const selectedSeats = [];
+    const selectedSeats = []; // Track which seats user picked
 
     seatModal.innerHTML = `
       <div class="modal-content">
@@ -321,14 +324,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = seatModal.querySelector(".close");
     closeBtn.onclick = () => closeSeatSelectionModal();
 
-    // Close modal when clicking outside
+    // Close when clicking outside
     seatModal.onclick = (event) => {
       if (event.target === seatModal) {
         closeSeatSelectionModal();
       }
     };
 
-    // Add seat click handlers
+    // Handle seat clicks
     const seatElements = seatModal.querySelectorAll(".seat.available");
     seatElements.forEach((seat) => {
       seat.addEventListener("click", () => {
@@ -337,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const seatKey = `${row}-${number}`;
 
         if (selectedSeats.find((s) => s.row === row && s.number === number)) {
-          // Deselect seat
+          // Deselect the seat
           selectedSeats.splice(
             selectedSeats.findIndex(
               (s) => s.row === row && s.number === number
@@ -346,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
           seat.classList.remove("selected");
         } else {
-          // Select seat
+          // Select the seat
           selectedSeats.push({ row, number });
           seat.classList.add("selected");
         }
@@ -355,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Add booking confirmation handler
+    // Handle booking confirmation
     const confirmBtn = seatModal.querySelector("#confirmBookingBtn");
     confirmBtn.addEventListener("click", () => {
       if (selectedSeats.length > 0) {
@@ -363,14 +366,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Add cancel handler
+    // Handle cancel
     const cancelBtn = seatModal.querySelector(".cancel-booking-btn");
     cancelBtn.addEventListener("click", () => {
       closeSeatSelectionModal();
     });
   }
 
-  // Function to generate seats grid HTML
+  // Generate the HTML for the seats grid
   function generateSeatsGrid(rows, seatsPerRow, bookedSeats) {
     let html = "";
     const bookedSeatsSet = new Set(
@@ -394,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return html;
   }
 
-  // Function to update booking summary
+  // Update the booking summary when seats are selected/deselected
   function updateBookingSummary(selectedSeats) {
     const selectedSeatsDisplay = document.getElementById(
       "selectedSeatsDisplay"
@@ -420,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to create booking
+  // Actually create the booking in the backend
   function createBooking(movie, showtime, selectedSeats) {
     const userInfo = JSON.parse(localStorage.getItem("user"));
 
@@ -438,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => {
         alert(`Booking successful! Booking ID: ${response.data.booking_id}`);
         closeSeatSelectionModal();
-        // Optionally redirect to bookings page
+        // Could redirect to bookings page here if we want
         // window.location.href = "bookings.html";
       })
       .catch((error) => {
@@ -455,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Function to close seat selection modal
+  // Close the seat selection modal
   function closeSeatSelectionModal() {
     const seatModal = document.getElementById("seatSelectionModal");
     if (seatModal) {
@@ -466,15 +469,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Fetch and display movies
+  // Load and display all the movies
   axios
     .get("http://localhost/cinema-booking-backend/api/movies.php?action=list")
     .then((response) => {
       const movies = response.data.movies;
-      console.log("Movies data:", movies); // Debug log
+      console.log("Movies loaded:", movies); // Debug
       const container = document.querySelector(".movies-container");
       movies.forEach((movie) => {
-        console.log("Movie:", movie.title, "Poster URL:", movie.poster_url); // Debug log for each movie
+        console.log(
+          "Processing movie:",
+          movie.title,
+          "Poster:",
+          movie.poster_url
+        ); // Debug
         const movieCard = document.createElement("div");
         movieCard.className = "movie-card";
         movieCard.style.cursor = "pointer";
@@ -501,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
 
-        // Add click event to open modal
+        // Make the card clickable to open modal
         movieCard.addEventListener("click", () => {
           openModal(movie);
         });
@@ -510,6 +518,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     })
     .catch((error) => {
-      console.error("Error fetching movies:", error);
+      console.error("Error loading movies:", error);
     });
 });
