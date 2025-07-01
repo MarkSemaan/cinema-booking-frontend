@@ -35,6 +35,29 @@
     <main>
       <div class="movies-container"></div>
     </main>
+
+    <!-- Movie Modal -->
+    <div id="movieModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+          <div class="modal-poster">
+            <img id="modalPoster" src="" alt="Movie poster" />
+          </div>
+          <div class="modal-info">
+            <h2 id="modalTitle"></h2>
+            <p id="modalYear" class="modal-year"></p>
+            <div class="modal-meta">
+              <span id="modalGenre" class="modal-genre"></span>
+              <span id="modalDirector" class="modal-director"></span>
+            </div>
+            <p id="modalSynopsis" class="modal-synopsis"></p>
+            <button class="book-now-btn">Book Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer></footer>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
