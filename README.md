@@ -64,4 +64,4 @@ The frontend expects these backend endpoints:
 - Axios for API calls
 - Local storage for session management
 
-**Note**: This is just the frontend. You'll need a backend api to interact with.
+**Note**: This is just the frontend. You'll need a [backend api](https://github.com/MarkSemaan/cinema-booking-backend) to interact with.
