@@ -2,6 +2,9 @@
 
 A cinema booking system frontend built with vanilla HTML, CSS, and JavaScript. This project handles movie browsing, booking management, and admin functionality for a cinema website.
 
+![image](https://github.com/user-attachments/assets/ee815a0e-3395-41f1-b163-e415bafa8d19)
+
+
 ## What it does
 
 - **Movie browsing**: Display movies with posters, details, and synopses
@@ -9,6 +12,9 @@ A cinema booking system frontend built with vanilla HTML, CSS, and JavaScript. T
 - **Admin dashboard**: Create and manage movies, showtimes, and auditoriums
 - **Booking system**: Handle ticket reservations
 - **Responsive design**: Works on desktop and mobile
+
+  ![image](https://github.com/user-attachments/assets/18c60c93-4934-4b39-a2e0-eb1b5b09f8c3)
+
 
 ## Setup
 
@@ -23,6 +29,9 @@ A cinema booking system frontend built with vanilla HTML, CSS, and JavaScript. T
 - **Homepage**: Landing page with cinema info
 - **Movies**: Browse available movies
 - **Bookings**: Browse user movie bookings
+
+![image](https://github.com/user-attachments/assets/42af4204-db6d-45c8-8ca8-1aea23b53e29)
+
 
 ### User features
 
