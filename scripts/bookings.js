@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch all movies and then bookings
   let movies = [];
   axios
-    .get("http://localhost/cinema-booking-backend/api/movies.php?action=list")
+    .get("http://localhost/cinema-booking-backend/movies")
     .then((response) => {
       movies = response.data.movies;
       return axios.get(
-        `http://localhost/cinema-booking-backend/api/bookings.php?action=user_bookings&user_id=${user.id}`
+        `http://localhost/cinema-booking-backend/bookings/user?user_id=${user.id}`
       );
     })
     .then((response) => {

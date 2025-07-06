@@ -1,7 +1,7 @@
 async function register() {
   try {
     const response = await axios.post(
-      "http://localhost/cinema-booking-backend/api/users.php?action=register",
+      "http://localhost/cinema-booking-backend/users/register",
       {
         username: document.getElementById("register-name").value,
         email: document.getElementById("register-email").value,
@@ -33,7 +33,7 @@ async function register() {
 async function login() {
   try {
     const response = await axios.post(
-      "http://localhost/cinema-booking-backend/api/users.php?action=login",
+      "http://localhost/cinema-booking-backend/users/login",
       {
         email: document.getElementById("login-email").value,
         password: document.getElementById("login-password").value,
