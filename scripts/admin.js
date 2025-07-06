@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       axios
         .post(
-          "http://localhost/cinema-booking-backend/api/movies.php?action=create",
+          "http://localhost/cinema-booking-backend/movies/create",
           formdata,
           {
             headers: {
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       axios
         .post(
-          "http://localhost/cinema-booking-backend/api/showtimes.php?action=create",
+          "http://localhost/cinema-booking-backend/showtimes/create",
           JSON.stringify(data),
           {
             headers: {
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       axios
         .post(
-          "http://localhost/cinema-booking-backend/api/auditorium.php?action=create",
+          "http://localhost/cinema-booking-backend/auditoriums/create",
           JSON.stringify(data),
           {
             headers: {
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to load movies for the showtime form
 function loadMovies() {
   axios
-    .get("http://localhost/cinema-booking-backend/api/movies.php?action=list")
+    .get("http://localhost/cinema-booking-backend/movies")
     .then((response) => {
       const movieSelect = document.getElementById("movie_id");
       const currentValue = movieSelect.value; // Store current selection
@@ -200,9 +200,7 @@ function loadMovies() {
 // Function to load auditoriums dropdown for the showtime form
 function loadAuditoriums() {
   axios
-    .get(
-      "http://localhost/cinema-booking-backend/api/auditorium.php?action=list"
-    )
+    .get("http://localhost/cinema-booking-backend/auditoriums/list")
     .then((response) => {
       const auditoriumSelect = document.getElementById("auditorium_id");
       const currentValue = auditoriumSelect.value; // Store current selection
