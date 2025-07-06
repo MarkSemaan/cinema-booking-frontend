@@ -89,11 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Need both showtimes and auditorium info
     Promise.all([
       axios.get(
-        `http://localhost/cinema-booking-backend/api/showtimes.php?action=by_movie&movie_id=${movie.id}`
+        `http://localhost/cinema-booking-backend/showtimes/by-movie?movie_id=${movie.id}`
       ),
-      axios.get(
-        `http://localhost/cinema-booking-backend/api/auditorium.php?action=list`
-      ),
+      axios.get(`http://localhost/cinema-booking-backend/auditoriums`),
     ])
       .then(([showtimesResponse, auditoriumsResponse]) => {
         const showtimes = showtimesResponse.data.showtimes;
@@ -232,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchAvailableSeats(movie, showtime) {
     axios
       .get(
-        `http://localhost/cinema-booking-backend/api/bookings.php?action=available_seats&showtime_id=${showtime.id}`
+        `http://localhost/cinema-booking-backend/bookings/available-seats?showtime_id=${showtime.id}`
       )
       .then((response) => {
         const seatData = response.data;
@@ -435,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     axios
       .post(
-        "http://localhost/cinema-booking-backend/api/bookings.php?action=create",
+        "http://localhost/cinema-booking-backend/bookings/create",
         bookingData
       )
       .then((response) => {
@@ -471,7 +469,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load and display all the movies
   axios
-    .get("http://localhost/cinema-booking-backend/api/movies.php?action=list")
+    .get("http://localhost/cinema-booking-backend/movies")
     .then((response) => {
       const movies = response.data.movies;
       console.log("Movies loaded:", movies); // Debug
