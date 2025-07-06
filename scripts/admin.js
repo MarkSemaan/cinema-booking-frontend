@@ -200,7 +200,7 @@ function loadMovies() {
 // Function to load auditoriums dropdown for the showtime form
 function loadAuditoriums() {
   axios
-    .get("http://localhost/cinema-booking-backend/auditoriums/list")
+    .get("http://localhost/cinema-booking-backend/auditoriums")
     .then((response) => {
       const auditoriumSelect = document.getElementById("auditorium_id");
       const currentValue = auditoriumSelect.value; // Store current selection
